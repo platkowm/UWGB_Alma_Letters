@@ -10,17 +10,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 <xsl:template match="/">
 	<html>
-			<xsl:if test="notification_data/languages/string">
-				<xsl:attribute name="lang">
-					<xsl:value-of select="notification_data/languages/string"/>
-				</xsl:attribute>
-			</xsl:if>
-
 		<head>
-				<title>
-					<xsl:value-of select="notification_data/general_data/subject"/>
-				</title>
-
 		<xsl:call-template name="generalStyle" />
 		</head>
 
@@ -35,11 +25,10 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 				<br />
 
 
-				<table role='presentation'  cellspacing="0" cellpadding="5" border="0">
+				<table cellspacing="0" cellpadding="5" border="0">
 				<tr>
 				<td>
 					<h>@@inform_you_item_below@@ </h>
-					<h>@@borrowed_by_you@@ @@decalred_as_lost@@</h>
 				</td>
 				</tr>
 				</table>
@@ -50,32 +39,32 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 				</xsl:attribute>
 
 				<xsl:for-each select="notification_data">
-				<table role='presentation' >
+				<table>
 					<tr>
 						<td>
-						<strong>@@lost_item@@ :</strong> <xsl:value-of select="item_loan/title"/>
+						<b>@@lost_item@@ :</b> <xsl:value-of select="item_loan/title"/>
 						<br />
-						<strong>@@description@@ :</strong><xsl:value-of select="item_loan/description"/>
+						<b>@@description@@ :</b><xsl:value-of select="item_loan/description"/>
 						<br />
-						<strong> @@by@@ :</strong><xsl:value-of select="item_loan/author"/>
+						<b> @@by@@ :</b><xsl:value-of select="item_loan/author"/>
 						<br />
-						<strong>@@library@@ :</strong><xsl:value-of select="organization_unit/name"/>
+						<b>@@library@@ :</b><xsl:value-of select="organization_unit/name"/>
 						<br />
-						<strong>@@loan_date@@ :</strong><xsl:value-of select="item_loan/loan_date"/>
+						<b>@@loan_date@@ :</b><xsl:value-of select="item_loan/loan_date"/>
 						<br />
-						<strong>@@due_date@@ :</strong><xsl:value-of select="item_loan/due_date"/>
+						<b>@@due_date@@ :</b><xsl:value-of select="item_loan/due_date"/>
 						<br />
-						<strong>@@barcode@@ :</strong><xsl:value-of select="item_loan/barcode"/>
+						<b>@@barcode@@ :</b><xsl:value-of select="item_loan/barcode"/>
 						<br />
-						<strong>@@call_number@@ :</strong><xsl:value-of select="phys_item_display/call_number"/>
+						<b>@@call_number@@ :</b><xsl:value-of select="phys_item_display/call_number"/>
 						<br />
-						<strong>@@charged_with_fines_fees@@ </strong>
+						<b>@@charged_with_fines_fees@@ </b>
 						</td>
 					</tr>
 				</table>
 				</xsl:for-each>
 
-				<table role='presentation'  cellpadding="5" class="listing">
+				<table cellpadding="5" class="listing">
 				<xsl:attribute name="style">
 					<xsl:call-template name="mainTableStyleCss" /> <!-- style.xsl -->
 				</xsl:attribute>
@@ -87,7 +76,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 					<xsl:for-each select="notification_data/fines_fees_list/user_fines_fees">
 					<tr>
 						<td><xsl:value-of select="fine_fee_type_display"/></td>
-						<td><xsl:value-of select="fine_fee_ammount/normalized_sum"/>&#160;<xsl:value-of select="fine_fee_ammount/currency"/></td>
+						<td><xsl:value-of select="fine_fee_ammount/sum"/>&#160;<xsl:value-of select="fine_fee_ammount/currency"/></td>
 						<td><xsl:value-of select="ff"/></td>
 					</tr>
 					</xsl:for-each>
@@ -99,11 +88,13 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 				<br />
 				@@additional_info_2@@
 				<br />
-				<table role='presentation' >
+Payments should be made at the Library or via mail, with the exception of student accounts.  Payments for student accounts are processed through your SIS account with the Bursar's Office.  Per the Provost, faculty and staff fines not resolved within 60 days will be billed to their appropriate unit chair.  Only fine amounts will be shared with unit chairs to ensure confidentiality of items checked out.
+<br />
+				<table>
 
 						<tr><td>@@sincerely@@</td></tr>
 						<tr><td>@@department@@</td></tr>
-
+920-465-2540
 				</table>
 				</table>
 				<br />
