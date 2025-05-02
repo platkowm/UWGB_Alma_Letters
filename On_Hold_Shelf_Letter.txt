@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsl:stylesheet version="1.0"
+xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+
+<xsl:include href="header.xsl" />
+<xsl:include href="senderReceiver.xsl" />
+<xsl:include href="mailReason.xsl" />
+<xsl:include href="footer.xsl" />
+<xsl:include href="style.xsl" />
+<xsl:include href="recordTitle.xsl" />
+
+<xsl:template match="/">
+	<html>
+		<head>
+		<xsl:call-template name="generalStyle" />
+		</head>
+
+			<body>
+			<xsl:attribute name="style">
+				<xsl:call-template name="bodyStyleCss" /> <!-- style.xsl -->
+			</xsl:attribute>
+				<xsl:call-template name="head" /> <!-- header.xsl -->
+				<!-- xsl:call-template name="senderReceiver" / --> <!-- SenderReceiver.xsl -->
+
+				<xsl:call-template name="toWhomIsConcerned" /> <!-- mailReason.xsl -->
+
+				<div class="messageArea">
+				<div class="messageBody">
+					<table cellspacing="0" cellpadding="5" border="0">
+ 	                 			<p>An item you recently requested is now available: </p> 
+ 	                 		<p><xsl:call-template name="recordTitle" /> <!-- recordTitle.xsl --></p>	 
+
+    <xsl:choose>  
+        <xsl:when test="contains(notification_data/request/assigned_unit_name, 'UW Green Bay Archives and Area Research Center')">
+
+                    <table>
+						<tr>
+							<strong>For archives users:</strong> 
+						</tr>
+						<tr><li>Materials requested through the Archives and Area Research Center must be used on site.</li></tr>
+						<tr><li>Requested items are held in the archives for 30 days.</li></tr>
+						<tr><li>Please note that <a href="https://www.uwgb.edu/library/visit/hours/">Archives Hours</a> are different from the library's hours. </li></tr>
+						<tr><li>If you have questions, please contact the Archives at archives@uwgb.edu or 920-465-2539.</li></tr>
+					</table>
+ 	    </xsl:when>	    			
+        <xsl:when test="contains(notification_data/request/assigned_unit_name, 'UW Green Bay Online Education')">
+
+						<tr><td><strong>For fully online and Marinette student library users:</strong></td></tr>
+                        <tr><td>We are preparing to send your requested item, listed below.  Please allow 5-10 days for delivery.  The "held until" date does not apply to shipped items.</td></tr>
+						
+        </xsl:when>
+
+    	<xsl:otherwise>
+					
+                    <table>
+						<tr>
+							<strong>For in-person library users:</strong> 
+						</tr>
+						<tr><li>Your item will be available for pickup at the service desk at your chosen pickup location library for the next 10 days. 
+						If you are picking up the item from the Green Bay campus, the service desk is on the 3rd floor of the library.  Please check the <a href="https://www.uwgb.edu/library/visit/hours/">Library hours</a> to ensure we are open when you intend to arrive.</li></tr>
+						<tr><li>If you have any questions about picking up your item, please reach out to us using one of the methods listed on our <a href="https://libguides.uwgb.edu/ResearchHelp">Research Help</a> page and we will route your question accordingly. </li></tr>
+						<tr><li>Please note that if you have outstanding fines or fees, they may impact your borrowing abilities and are listed below.</li></tr>
+                        <tr></tr>	
+                    </table>
+
+        </xsl:otherwise>
+        
+    </xsl:choose>
+
+                <br></br>
+                <table>
+						<tr>
+							<td>@@following_item_requested_on@@ @@can_picked_at@@ <xsl:value-of select="notification_data/request/assigned_unit_name"/>.</td>
+						</tr>
+						<tr>
+							<xsl:if test="notification_data/request/work_flow_entity/expiration_date">
+						    <td>
+							 @@note_item_held_until@@ <xsl:value-of select="notification_data/request/work_flow_entity/expiration_date"/>.
+					        </td>
+							</xsl:if>
+						</tr>
+						<tr>
+							<td><xsl:call-template name="recordTitle" /> <!-- recordTitle.xsl --></td>
+						</tr>
+				</table>
+		        <table>
+					<xsl:if test="notification_data/request/system_notes !=''">
+						<tr>
+							<td><b>@@notes_affect_loan@@:</b></td>
+						</tr>
+						<tr>
+							<td><xsl:value-of select="notification_data/request/system_notes"/></td>
+						</tr>
+					</xsl:if>
+		        </table>
+		  </table>
+			</div>
+			</div>
+				<br></br>
+				<table>
+						<tr><td>@@sincerely@@</td></tr>
+						<tr><td>@@department@@</td></tr>
+						<tr><td><a href="https://www.uwgb.edu/library/about-us/our-staff">Contact Us</a></td></tr>
+				</table>
+
+
+
+
+				<!-- xsl:call-template name="lastFooter" / --> <!-- footer.xsl -->
+		</body>
+	</html>
+	</xsl:template>
+
+
+
+</xsl:stylesheet>
